@@ -201,7 +201,7 @@ const Home = (props) => {
 							</Navbar.Brand>
 							<Navbar.Toggle aria-controls="basic-navbar-nav" />
 							<Navbar.Collapse id="basic-navbar-nav">
-								<Nav className="ms-auto mb-2 mb-lg-0 d-flex align-items-start">
+								<Nav className="ms-auto mb-2 mb-lg-0 d-flex align-items-center">
 									<Nav.Link href="/about" target="_blank" className="">
 										Sobre nosotros🐱‍🏍
 									</Nav.Link>
@@ -210,7 +210,7 @@ const Home = (props) => {
 									</Nav.Link>
 									<Nav.Link
 										href="/login"
-										className="btn btn-outline-success text-gray mx-3"
+										className="btn btn-outline-success text-gray mx-3 my-2 px-4"
 									>
 										<svg
 											width="25"
@@ -246,7 +246,7 @@ const Home = (props) => {
 									</Nav.Link>
 									<Nav.Link
 										href="/auth/register"
-										className="btn btn-success text-white"
+										className="btn btn-success text-white mx-3 my-2 px-4"
 									>
 										<svg
 											width="25"

@@ -209,7 +209,43 @@ const Home = (props) => {
 										Contribuir🤑
 									</Nav.Link>
 									<Nav.Link
-										href="/register"
+										href="/login"
+										className="btn btn-outline-success text-gray mx-3"
+									>
+										<svg
+											width="25"
+											viewBox="0 0 24 24"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M21.25 16.334V7.665C21.25 4.645 19.111 2.75 16.084 2.75H7.916C4.889 2.75 2.75 4.635 2.75 7.665L2.75 16.334C2.75 19.364 4.889 21.25 7.916 21.25H16.084C19.111 21.25 21.25 19.364 21.25 16.334Z"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											></path>
+											<path
+												d="M16.0861 12H7.91406"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											></path>
+											<path
+												d="M12.3223 8.25205L16.0863 12L12.3223 15.748"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											></path>
+										</svg>
+										Ingresar
+									</Nav.Link>
+									<Nav.Link
+										href="/auth/register"
 										className="btn btn-success text-white"
 									>
 										<svg
@@ -219,18 +255,36 @@ const Home = (props) => {
 											xmlns="http://www.w3.org/2000/svg"
 										>
 											<path
-												opacity="0.4"
-												d="M21.101 9.58786H19.8979V8.41162C19.8979 7.90945 19.4952 7.5 18.999 7.5C18.5038 7.5 18.1 7.90945 18.1 8.41162V9.58786H16.899C16.4027 9.58786 16 9.99731 16 10.4995C16 11.0016 16.4027 11.4111 16.899 11.4111H18.1V12.5884C18.1 13.0906 18.5038 13.5 18.999 13.5C19.4952 13.5 19.8979 13.0906 19.8979 12.5884V11.4111H21.101C21.5962 11.4111 22 11.0016 22 10.4995C22 9.99731 21.5962 9.58786 21.101 9.58786Z"
-												fill="currentColor"
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M9.87651 15.2063C6.03251 15.2063 2.74951 15.7873 2.74951 18.1153C2.74951 20.4433 6.01251 21.0453 9.87651 21.0453C13.7215 21.0453 17.0035 20.4633 17.0035 18.1363C17.0035 15.8093 13.7415 15.2063 9.87651 15.2063Z"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
 											></path>
 											<path
-												d="M9.5 15.0156C5.45422 15.0156 2 15.6625 2 18.2467C2 20.83 5.4332 21.5001 9.5 21.5001C13.5448 21.5001 17 20.8533 17 18.269C17 15.6848 13.5668 15.0156 9.5 15.0156Z"
-												fill="currentColor"
+												fill-rule="evenodd"
+												clip-rule="evenodd"
+												d="M9.8766 11.886C12.3996 11.886 14.4446 9.841 14.4446 7.318C14.4446 4.795 12.3996 2.75 9.8766 2.75C7.3546 2.75 5.3096 4.795 5.3096 7.318C5.3006 9.832 7.3306 11.877 9.8456 11.886H9.8766Z"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
 											></path>
 											<path
-												opacity="0.4"
-												d="M9.50023 12.5542C12.2548 12.5542 14.4629 10.3177 14.4629 7.52761C14.4629 4.73754 12.2548 2.5 9.50023 2.5C6.74566 2.5 4.5376 4.73754 4.5376 7.52761C4.5376 10.3177 6.74566 12.5542 9.50023 12.5542Z"
-												fill="currentColor"
+												d="M19.2036 8.66919V12.6792"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											></path>
+											<path
+												d="M21.2497 10.6741H17.1597"
+												stroke="currentColor"
+												stroke-width="1.5"
+												stroke-linecap="round"
+												stroke-linejoin="round"
 											></path>
 										</svg>
 										Registrarme
@@ -241,32 +295,30 @@ const Home = (props) => {
 					</Navbar>
 				</Container>
 			</div>
-            <div className=" body-class-1 container">
-                    <div className="bd-cheatsheet container-fluid bg-trasprent mt-n5" >
-                        <section id="objectives" >
-                            <div className="bd-heading sticky-xl-top align-self-start">
-                                <Card className="">
-                                    <Card.Body className="">
-                                        <h4 className="fw-bold">
-                                            Objetivos
-                                        </h4>
-                                        
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                            <div className="">
-                                <Card className="">
-                                    <Card.Body className="">
-                                        <p>
-                                            El objetivo de esta aplicación es que los usuarios puedan crear una lista de tareas,
-                                            y que estas sean organizadas en categorías.
-                                        </p>
-                                    </Card.Body>
-                                </Card>
-                            </div>
-                        </section>
-                    </div>
-                </div>
+			<div className=" body-class-1 container">
+				<div className="bd-cheatsheet container-fluid bg-trasprent mt-n5">
+					<section id="objectives">
+						<div className="bd-heading sticky-xl-top align-self-start">
+							<Card className="">
+								<Card.Body className="">
+									<h4 className="fw-bold">Objetivos</h4>
+								</Card.Body>
+							</Card>
+						</div>
+						<div className="">
+							<Card className="">
+								<Card.Body className="">
+									<p>
+										El objetivo de esta aplicación es que los usuarios puedan
+										crear una lista de tareas, y que estas sean organizadas en
+										categorías.
+									</p>
+								</Card.Body>
+							</Card>
+						</div>
+					</section>
+				</div>
+			</div>
 			<div id="back-to-top" style={{ display: "none" }}>
 				<Button size="xs" variant="primary  p-0 position-fixed top" href="#top">
 					<svg

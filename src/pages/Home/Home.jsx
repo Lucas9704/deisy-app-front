@@ -4,7 +4,7 @@ import { Button, Nav, Navbar, Container } from "react-bootstrap";
 import Logo from "../../components/partials/components/logo";
 import { ScrollSpy } from "bootstrap";
 import { Link } from "react-router-dom";
-import Card from "../../components/partials/Card";
+import Card from "../../components/Card";
 
 //img
 import topImage from "../../assets/images/dashboard/top-image.jpg";

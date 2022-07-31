@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col, Image, Form, Button, ListGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import Card from "../../components/partials/Card";
+import Card from "../../components/Card";
 import Logo from "../../components/partials/components/logo";
 
 // img

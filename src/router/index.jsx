@@ -10,8 +10,6 @@ import {
 	SignUp,
 	Dashboard,
 } from "../pages";
-import UserProfile from "../views/dashboard/UserProfile";
-import PetsList from "../views/dashboard/PetsList";
 
 const IndexRoutes = () => {
 	return (
@@ -23,7 +21,9 @@ const IndexRoutes = () => {
 				<Route path="/login" element={<Login />} />
 				<Route path="auth/register" element={<SignUp />} />
 				<Route path="/dashboard" element={<Dashboard />}>
-					<Route path="profile" element={<UserProfile />} />
+					<Route path="profile" />
+                    <Route path="add" />
+                    <Route path="pet/:id" />
 				</Route>
 				<Route path="/*" element={<NotFound />} />
 			</Routes>

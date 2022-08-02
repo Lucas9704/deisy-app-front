@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Row, Col, Container } from "react-bootstrap";
 import { bindActionCreators } from "redux";
-import { useAuth } from "../../../../contexts/authContext";
 //img
 import topHeader from "../../../../assets/images/dashboard/top-header.png";
 import topHeader1 from "../../../../assets/images/dashboard/top-header1.png";
@@ -50,7 +49,6 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const SubHeader = (props) => {
-	const { user } = useAuth();
 
 	useEffect(() => {
 		// navbarstylemode
@@ -65,7 +63,7 @@ const SubHeader = (props) => {
 						<Col md="12">
 							<div className="d-flex justify-content-between flex-wrap">
 								<div>
-									<h2>🙋🏻‍♀️Bienvenido {user.displayName || user.email} a Deisy App🙋🏽‍♂️</h2>
+									<h2>🙋🏻‍♀️Bienvenido a Deisy App🙋🏽‍♂️</h2>
 									<p>
 										Estamos muy emocionados de tenerte en nuestra comunidad tu
 										apoyo puede cambiar la vida de nuestras mascotas que nos

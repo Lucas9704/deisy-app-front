@@ -1,5 +1,6 @@
 import { Row, Col, Image, Nav, Tab } from "react-bootstrap";
 import Card from "../../../components/Card";
+import { useAuth } from "../../../contexts/authContext";
 
 import { Link } from "react-router-dom";
 // img
@@ -12,6 +13,8 @@ import avatars55 from "../../../assets/images/avatars/avtar_4.png";
 import avatars66 from "../../../assets/images/avatars/avtar_5.png";
 
 const UserProfile = () => {
+	  const { user } = useAuth();
+
 	return (
 		<>
 			<Tab.Container defaultActiveKey="fourth">
@@ -54,8 +57,8 @@ const UserProfile = () => {
 											/>
 										</div>
 										<div className="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-											<h4 className="me-2 h4">Austin Robertson</h4>
-											<span> - Web Developer</span>
+											<h4 className="me-2 h4">{user.displayName || user.email}</h4>
+											<span> - Usuario</span>
 										</div>
 									</div>
 									<Nav
@@ -126,8 +129,8 @@ const UserProfile = () => {
 												/>
 											</div>
 											<div className="mt-3">
-												<h3 className="d-inline-block">Austin Robertson</h3>
-												<p className="d-inline-block pl-3"> - Web developer</p>
+												<h3 className="d-inline-block">{user.displayName || user.email }</h3>
+												<p className="d-inline-block pl-3"> - Usuario</p>
 												<p className="mb-0">
 													Lorem Ipsum is simply dummy text of the printing and
 													typesetting industry. Lorem Ipsum has been the

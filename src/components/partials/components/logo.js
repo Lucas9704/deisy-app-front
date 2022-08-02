@@ -4,7 +4,7 @@ const Logo = (props) => {
 	return (
 		<div className="logo">
 			<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width={`${props.width}`} viewBox="0 0 512 512" enable-background="new 0 0 512 512" >
+	 width={`${props.width}`} viewBox="0 0 512 512" enableBackground="new 0 0 512 512" >
 <path fill="#AA8146" opacity="1.000000" stroke="none" 
 	d="
 M165.000916,54.900764 

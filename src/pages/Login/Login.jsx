@@ -1,4 +1,5 @@
-import React from "react";
+import  { useState } from "react";
+import { useAuth } from "../../contexts/authContext";
 import { Row, Col, Image, Form, Button, ListGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../components/Card";
@@ -12,7 +13,38 @@ import auth1 from "../../assets/images/auth/01.png";
 import Logo from "../../components/partials/components/logo";
 
 const Login = () => {
-	let navigate = useNavigate();
+	const [user , setUser] = useState({
+		email: "",
+		password: "",
+	});
+
+	const { login, loginWithGoogle } = useAuth();
+	const navigate = useNavigate();
+	const [error, setError] = useState(null);
+
+	const handleChange = ({target: {name, value}}) => 
+		setUser({...user, [name]: value});
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError("")
+		try {
+			await login(user.email, user.password);
+			navigate("/dashboard");
+		} catch (error) {
+			setError(error.message);
+		}
+	}
+
+	const handleGoogleSignIn = async () => {
+		try {
+			await loginWithGoogle();
+			navigate("/dashboard");
+		} catch (error) {
+			setError(error.message);
+		}
+	}
+
 	return (
 		<>
 			<section className="login-content">
@@ -46,6 +78,8 @@ const Login = () => {
 															id="email"
 															aria-describedby="email"
 															placeholder=" "
+															name="email"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -60,6 +94,8 @@ const Login = () => {
 															id="password"
 															aria-describedby="password"
 															placeholder=" "
+															name="password"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -73,20 +109,21 @@ const Login = () => {
 															Rocordarme🤖
 														</Form.Check.Label>
 													</Form.Check>
-													<Link to="/auth/recoverpw">
+													<Link to="/auth/forgot-password">
 														Olvidaste la Contraseña?🤔
 													</Link>
 												</Col>
 											</Row>
 											<div className="d-flex justify-content-center">
 												<Button
-													onClick={() => navigate("/dashboard")}
+													onClick={handleSubmit}
 													type="button"
 													variant="btn btn-primary"
 												>
 													Ingresar
 												</Button>
 											</div>
+											{error && <p>{error}</p>}
 											<p className="text-center my-3">
 												O quieres ingresar con otro metodo?
 											</p>
@@ -95,17 +132,17 @@ const Login = () => {
 													as="ul"
 													className="list-group-horizontal list-group-flush"
 												>
-													<ListGroup.Item as="li" className="border-0 pb-0">
+													{/* <ListGroup.Item as="li" className="border-0 pb-0">
 														<Link to="#">
 															<Image src={facebook} alt="fb" />
 														</Link>
-													</ListGroup.Item>
+													</ListGroup.Item> */}
 													<ListGroup.Item as="li" className="border-0 pb-0">
-														<Link to="#">
+														<Button type="button" variant="link" onClick={handleGoogleSignIn}>
 															<Image src={google} alt="gm" />
-														</Link>
+														</Button>
 													</ListGroup.Item>
-													<ListGroup.Item as="li" className="border-0 pb-0">
+													{/* <ListGroup.Item as="li" className="border-0 pb-0">
 														<Link to="#">
 															<Image src={instagram} alt="im" />
 														</Link>
@@ -114,7 +151,7 @@ const Login = () => {
 														<Link to="#">
 															<Image src={linkedin} alt="li" />
 														</Link>
-													</ListGroup.Item>
+													</ListGroup.Item> */}
 												</ListGroup>
 											</div>
 											<p className="mt-3 text-center">

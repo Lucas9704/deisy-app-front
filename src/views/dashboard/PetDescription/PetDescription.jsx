@@ -1,4 +1,4 @@
-import { Row, Col, Image, Nav, Tab } from "react-bootstrap";
+import { Row, Col, Image, Tab } from "react-bootstrap";
 import Card from "../../../components/Card";
 
 import { Link } from "react-router-dom";

@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
 import { bindActionCreators } from "redux";
-import { useAuth } from "../../contexts/authContext";
 
 //header
-import Header from "../../components/partials/dashboard/HeaderStyle/header";
+import Header from "../../components/partials/dashboard-inv/HeaderStyle/header";
 //subheader
-import SubHeader from "../../components/partials/dashboard/HeaderStyle/sub-header";
+import SubHeader from "../../components/partials/dashboard-inv/HeaderStyle/sub-header";
 //sidebar
-import Sidebar from "../../components/partials/dashboard/SidebarStyle/sidebar";
+import Sidebar from "../../components/partials/dashboard-inv/SidebarStyle/sidebar";
 //footer
 import Footer from "../../components/partials/dashboard/FooterStyle/footer";
 //default
@@ -63,8 +62,7 @@ const mapDispatchToProps = (dispatch) => ({
 	),
 });
 
-const Default = (props) => {
-	const { loading } = useAuth();
+const DashboardInv = (props) => {
 
 	useEffect(() => {
 		//   darkmode
@@ -114,10 +112,6 @@ const Default = (props) => {
 		}
 	});
 
-	if (loading) {
-		return <Loader />;
-	}
-
 	return (
 		<>
 			<Loader />
@@ -139,4 +133,4 @@ const Default = (props) => {
 	);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Default);
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardInv);

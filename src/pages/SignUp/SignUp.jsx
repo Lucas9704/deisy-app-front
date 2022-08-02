@@ -3,6 +3,8 @@ import { Row, Col, Image, Form, Button, ListGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "../../components/Card";
 import Logo from "../../components/partials/components/logo";
+import { useState } from "react";
+import { useAuth } from "../../contexts/authContext";
 
 // img
 import facebook from "../../assets/images/brands/fb.svg";
@@ -13,6 +15,57 @@ import auth5 from "../../assets/images/auth/05.png";
 
 const SignUp = () => {
 	let navigate = useNavigate();
+
+	const [form, setForm] = useState({
+		name: "",
+		lastName: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+		phone: "",
+		termsOfService: "",
+	});
+
+	const [error, setError] = useState();
+
+	const { register, loginWithGoogle } = useAuth();
+
+	const handleChange = ({ target: { name, value } }) => {
+		setForm({
+			...form,
+			[name]: value,
+		});
+	};
+
+	const handleSubmit = async (e) =>{
+		e.preventDefault();
+		const { email, password, confirmPassword, termsOfService } = form;
+		if(password !== confirmPassword){
+			setError("Las contraseñas no coinciden");
+			return;
+		}
+		if(!termsOfService){
+			setError("Acepte los términos y condiciones");
+			return;
+		}
+		try{
+			await register( email, password);
+			navigate("/dashboard");
+		}catch(error){
+			setError(error.message);
+		}
+	}
+
+	const handleGoogleSignIn = async () => {
+		try {
+			await loginWithGoogle();
+			navigate("/dashboard");
+		} catch (error) {
+			setError(error.message);
+		}
+	}
+
+
 	return (
 		<>
 			<section className="login-content">
@@ -37,10 +90,14 @@ const SignUp = () => {
 											<h4 className="logo-title ms-3">Deisy App</h4>
 										</Link>
 										<h2 className="mb-2 text-center">Registro</h2>
-										<p className="text-center">Create una cuenta para empezar a ayudar🐱‍👓.</p>
+										<p className="text-center">
+											Create una cuenta para empezar a ayudar🐱‍👓.
+											
+										</p>
 										<Form>
 											<Row>
 												<Col lg="6">
+												
 													<Form.Group className="form-group">
 														<Form.Label htmlFor="full-name" className="">
 															Nombre Completo
@@ -49,7 +106,9 @@ const SignUp = () => {
 															type="text"
 															className=""
 															id="full-name"
-															placeholder=" "
+															placeholder=""
+															name="name"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -63,6 +122,8 @@ const SignUp = () => {
 															className=""
 															id="last-name"
 															placeholder=" "
+															name="lastName"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -74,8 +135,10 @@ const SignUp = () => {
 														<Form.Control
 															type="email"
 															className=""
-															id="email"
-															placeholder=" "
+															id="remail"
+															placeholder=""
+															name="email"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -89,6 +152,8 @@ const SignUp = () => {
 															className=""
 															id="phone"
 															placeholder=" "
+															name="phone"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -102,6 +167,8 @@ const SignUp = () => {
 															className=""
 															id="password"
 															placeholder=" "
+															name="password"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -111,10 +178,12 @@ const SignUp = () => {
 															Confirmar Contraseña 🔐
 														</Form.Label>
 														<Form.Control
-															type="text"
+															type="password"
 															className=""
 															id="confirm-password"
 															placeholder=" "
+															name="confirmPassword"
+															onChange={handleChange}
 														/>
 													</Form.Group>
 												</Col>
@@ -123,6 +192,8 @@ const SignUp = () => {
 														<Form.Check.Input
 															type="checkbox"
 															id="customCheck1"
+															name="termsOfService"
+															onChange={handleChange}
 														/>
 														<Form.Check.Label htmlFor="customCheck1">
 															Acepto los términos y condiciones
@@ -132,13 +203,14 @@ const SignUp = () => {
 											</Row>
 											<div className="d-flex justify-content-center">
 												<Button
-													onClick={() => navigate("/dashboard")}
+													onClick={handleSubmit}
 													type="button"
 													variant="primary"
 												>
 													Registrarme
 												</Button>
 											</div>
+											{error && <p>{error}</p>}
 											<p className="text-center my-3">
 												O quieres comenzar con otra cuenta?
 											</p>
@@ -147,23 +219,23 @@ const SignUp = () => {
 													as="ul"
 													className="list-group-horizontal list-group-flush"
 												>
-													<ListGroup.Item
+													{/* <ListGroup.Item
 														as="li"
 														className="list-group-item border-0 pb-0"
 													>
 														<Link to="#">
 															<Image src={facebook} alt="fb" />
 														</Link>
-													</ListGroup.Item>
+													</ListGroup.Item> */}
 													<ListGroup.Item
 														as="li"
 														className="list-group-item border-0 pb-0"
 													>
-														<Link to="#">
+														<Button onClick={handleGoogleSignIn} type="button" variant="link">
 															<Image src={google} alt="gm" />
-														</Link>
+														</Button>
 													</ListGroup.Item>
-													<ListGroup.Item
+													{/* <ListGroup.Item
 														as="li"
 														className="list-group-item border-0 pb-0"
 													>
@@ -178,12 +250,12 @@ const SignUp = () => {
 														<Link to="#">
 															<Image src={linkedin} alt="li" />
 														</Link>
-													</ListGroup.Item>
+													</ListGroup.Item> */}
 												</ListGroup>
 											</div>
 											<p className="mt-3 text-center">
 												Ya tienes una cuenta{" "}
-												<Link to="/auth/sign-in" className="text-underline">
+												<Link to="/login" className="text-underline">
 													Inicia sesión
 												</Link>
 											</p>
@@ -193,14 +265,13 @@ const SignUp = () => {
 							</Col>
 						</Row>
 						<div className="sign-bg sign-bg-right">
-						<svg
+							<svg
 								version="1.0"
 								xmlns="http://www.w3.org/2000/svg"
 								width="350"
 								height="350"
 								viewBox="0 0 512.000000 512.000000"
 								preserveAspectRatio="xMidYMid meet"
-                                
 							>
 								<g
 									opacity="0.2"

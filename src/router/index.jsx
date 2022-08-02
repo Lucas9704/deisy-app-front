@@ -9,7 +9,10 @@ import {
 	Login,
 	SignUp,
 	Dashboard,
+	DashboardInv,
+	ForgotPassword,
 } from "../pages";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const IndexRoutes = () => {
 	return (
@@ -20,11 +23,18 @@ const IndexRoutes = () => {
 				<Route path="/contact" element={<Contact />} />
 				<Route path="/login" element={<Login />} />
 				<Route path="auth/register" element={<SignUp />} />
-				<Route path="/dashboard" element={<Dashboard />}>
+				<Route path="auth/forgot-password" element={<ForgotPassword />} />
+				<Route path="/dashboard/*" element={
+					<ProtectedRoute>
+						<Dashboard />
+					</ProtectedRoute>
+					
+				}>
 					<Route path="profile" />
                     <Route path="add" />
                     <Route path="pet/:id" />
 				</Route>
+				<Route path="dashboard-inv" element={<DashboardInv />} />
 				<Route path="/*" element={<NotFound />} />
 			</Routes>
 		</>

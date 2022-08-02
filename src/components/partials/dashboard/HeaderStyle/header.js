@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { Navbar, Container, Nav, Dropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CustomToggle from "../../../dropdowns";
 import { bindActionCreators } from "redux";
+import { useAuth } from "../../../../contexts/authContext";
 
 //img
 import avatars1 from "../../../../assets/images/avatars/01.png";
@@ -54,6 +55,17 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Header = (props) => {
+	const { logout, user } = useAuth();
+
+	const handleLogout = async () => {
+		try {
+			await logout();
+		}
+		catch (error) {
+			console.log(error);
+		}
+	}
+
 	useEffect(() => {
 		// navbarstylemode
 		const navbarstyleMode1 = sessionStorage.getItem("Navbarstyle-mode");
@@ -172,8 +184,8 @@ const Header = (props) => {
 										className="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<div className="caption ms-3 d-none d-md-block ">
-										<h6 className="mb-0 caption-title">Lucas Canteros</h6>
-										<p className="mb-0 caption-sub-title">App Administrator</p>
+										<h6 className="mb-0 caption-title">{user.displayName || user.email}</h6>
+										<p className="mb-0 caption-sub-title">App user</p>
 									</div>
 								</Dropdown.Toggle>
 								<Dropdown.Menu
@@ -192,9 +204,9 @@ const Header = (props) => {
 									</Dropdown.Item>
 									<Dropdown.Divider />
 									<Dropdown.Item>
-										<Link to="/login" className="dropdown-item">
-											Cerrar sesión
-										</Link>
+										<Button className="dropdown-item" onClick={handleLogout}>
+										Cerrar sesión
+										</Button>
 									</Dropdown.Item>
 								</Dropdown.Menu>
 							</Dropdown>

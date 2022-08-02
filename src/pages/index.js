@@ -5,5 +5,7 @@ import NotFound from "./NotFound";
 import Login from "./Login";
 import SignUp from "./SignUp";
 import Dashboard from "./Dashboard";
+import DashboardInv from "./DashboardInv";
+import ForgotPassword from "./ForgotPassword";
 
-export { About, Contact, Home, NotFound, Login, SignUp, Dashboard };
+export { About, Contact, Home, NotFound, Login, SignUp, Dashboard, DashboardInv, ForgotPassword };

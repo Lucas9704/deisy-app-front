@@ -1,104 +1,128 @@
+import { useState, useEffect } from "react";
 import { Row, Col, Image, Tab } from "react-bootstrap";
 import Card from "../../../components/Card";
+import { Link, useParams } from "react-router-dom";
+import { getPet } from "../../../services/getPet";
+import Loader from "../../../components/Loader";
 
-import { Link } from "react-router-dom";
-// img
+const PetDescription = () => {
+	const [pet, setPet] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const { id } = useParams();
 
-const UserProfile = () => {
+	async function fetchData() {
+		try {
+			const fetch = await getPet(id);
+			setPet(fetch.data.pet);
+			console.log(fetch.data.pet);
+			setLoading(false);
+		} catch (error) {
+			setError(error);
+			setLoading(false);
+		}
+	}
+
+	useEffect(() => {
+		fetchData();
+	}, [id]);
+
+	if (loading) {
+		return <Loader />;
+	}
+
+	const date = new Date(pet.createdAt);
+	const day = date.getDate();
+	const month = date.getMonth() + 1;
+	const year = date.getFullYear();
+	const dateString = `${day}/${month}/${year}`;
+
+	const date_eat = new Date(pet.updatedAt);
+	const day_eat = date_eat.getDate();
+	const month_eat = date_eat.getMonth() + 1;
+	const year_eat = date_eat.getFullYear();
+	const dateString_eat = `${day_eat}/${month_eat}/${year_eat}`;
+
 	return (
 		<>
-			<Tab.Container defaultActiveKey="fourth">
-				<Row>
-					<Col lg="4" className="col-lg-4">
-						<Card>
-							<Card.Header>
-								<div className="header-title">
-									<h4 className="card-title">Profile</h4>
+			<Row>
+				<Col lg="4" className="col-lg-4">
+					<Card>
+						<Card.Header>
+							<div className="header-title">
+								<h4 className="card-title">Detalles</h4>
+							</div>
+						</Card.Header>
+						<Card.Body>
+							<div className="text-center">
+								<div className="user-profile">
+									<Image src={pet.image_url} fluid="true" rounded="true" />
 								</div>
-							</Card.Header>
-							<Card.Body>
-								<div className="text-center">
-									<div className="user-profile">
-										<Image/>
-									</div>
-									<div className="mt-3">
-										<h3 className="d-inline-block">Pet test</h3><br/>
-										<p className="d-inline-block pl-3"> Apodo</p>
-										<p className="mb-0">
-											Lorem Ipsum is simply dummy text of the printing and
-											typesetting industry. Lorem Ipsum has been the industry's
-											standard dummy text ever since the 1500s
-										</p>
-									</div>
-								</div>
-							</Card.Body>
-						</Card>
-					</Col>
-					<Col lg="8">
-						<Card>
-							<Card.Header>
-								<div className="header-title">
-									<h4 className="card-title">About User</h4>
-								</div>
-							</Card.Header>
-							<Card.Body>
-								<div className="user-bio">
-									<p>
-										Tart I love sugar plum I love oat cake. Sweet roll caramels
-										I love jujubes. Topping cake wafer.
+								<div className="mt-3">
+									<h3 className="d-inline-block">{pet.name} </h3>
+									<br />
+									<p className="d-inline-block pl-3"> Apodo</p>
+									<p className="mb-0">
+										{pet.description}
 									</p>
 								</div>
-								<div className="mt-2">
-									<h6 className="mb-1">Joined:</h6>
-									<p>Feb 15, 2021</p>
-								</div>
-								<div className="mt-2">
-									<h6 className="mb-1">Lives:</h6>
-									<p>United States of America</p>
-								</div>
-								<div className="mt-2">
-									<h6 className="mb-1">Email:</h6>
-									<p>
-										<Link to="#" className="text-body">
-											{" "}
-											austin@gmail.com
-										</Link>
-									</p>
-								</div>
-								<div className="mt-2">
-									<h6 className="mb-1">Url:</h6>
-									<p>
-										<Link to="#" className="text-body" target="_blank">
-											{" "}
-											www.bootstrap.com{" "}
-										</Link>
-									</p>
-								</div>
-								<div className="mt-2">
-									<h6 className="mb-1">Contact:</h6>
-									<p>
-										<Link to="#" className="text-body">
-											(001) 4544 565 456
-										</Link>
-									</p>
-								</div>
-							</Card.Body>
-						</Card>
-					</Col>
-					<Col lg="12">
-						<Card>
-							<Card.Header>
-								<div className="header-title">
-									<h4 className="card-title">Galeria</h4>
-								</div>
-							</Card.Header>
-							<Card.Body></Card.Body>
-						</Card>
-					</Col>
-				</Row>
-			</Tab.Container>
+							</div>
+						</Card.Body>
+					</Card>
+				</Col>
+				<Col lg="8">
+					<Card>
+						<Card.Header>
+							<div className="header-title">
+								<h4 className="card-title">Acerca de {pet.name}</h4>
+							</div>
+						</Card.Header>
+						<Card.Body>
+							<div className="user-bio">
+								<p>
+									{pet.history}
+								</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Especie:</h6>
+								<p>{pet.type === "Dog" ? "Perro" : "Gato"}</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Genero:</h6>
+								<p>{pet.gender === "female" ? "Hembra" : "Macho"}</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Se registró:</h6>
+								<p>{dateString}</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Ubicación aproximada:</h6>
+								<p>{pet.approximate_location}</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Estado de adopción:</h6>
+								<p>{pet.adoption_status ? "No adoptado/a" : "Adoptado/a" }</p>
+							</div>
+							<div className="mt-2">
+								<h6 className="mb-1">Ultimo registro de alimento:</h6>
+								<p>{dateString_eat}</p>
+							</div>
+						</Card.Body>
+					</Card>
+				</Col>
+				<Col lg="12">
+					<Card>
+						<Card.Header>
+							<div className="header-title">
+								<h4 className="card-title">Galeria</h4>
+							</div>
+						</Card.Header>
+						<Card.Body></Card.Body>
+					</Card>
+				</Col>
+			</Row>
 		</>
 	);
 };
 
-export default UserProfile;
+export default PetDescription;

@@ -8,3 +8,11 @@ export function ProtectedRoute ({children}) {
     if (loading) return <div>Loading...</div>;
     return <>{children}</>;
 }
+
+export function ProtectedRouteLogin ({children}) {
+    const { user, loading } = useAuth();
+
+    if (user) return <Navigate to="/dashboard" />;
+    if (loading) return <div>Loading...</div>;
+    return <>{children}</>;
+}

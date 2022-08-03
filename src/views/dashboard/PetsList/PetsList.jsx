@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import { Card, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { getPets } from "../../../services/getPets";
+import Loader from "../../../components/Loader";
+import { Pagination } from "@mui/material";
 
 import { bindActionCreators } from "redux";
 
@@ -36,6 +39,8 @@ import {
 } from "../../../store/setting/setting";
 import { connect } from "react-redux";
 
+import "./PetsList.scss";
+
 // install Swiper modules
 SwiperCore.use([Navigation]);
 
@@ -67,6 +72,33 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const PetsList = (props) => {
+	const [pets, setPets] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [data, setData] = useState();
+	const [currentPage, setCurrentPage] = useState(0);
+
+	const handleChangePage = newPage => {
+		setCurrentPage(newPage-1);
+		window.scrollTo(0, 0);
+	}
+
+	useEffect(() => {
+		async function fetchPets() {
+			try {
+				const pets = await getPets( 8, currentPage);
+				setData(pets.data);
+				setPets(pets.data.data);
+				setLoading(false);
+			} catch (error) {
+				setError(error.message);
+				setLoading(false);
+			}
+		}
+
+		fetchPets();
+	}, [currentPage]);
+
 	useEffect(() => {
 		AOS.init({
 			startEvent: "DOMContentLoaded",
@@ -110,220 +142,47 @@ const PetsList = (props) => {
 		}
 	});
 
+	if (loading) {
+		return <Loader />;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
+
 	return (
 		<>
-			<Row className="row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 justify-content-center">
-				<Col>
-					<Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-				</Col>
-				<Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
-				<Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
-                <Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
-                <Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
-                <Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
-                <Col>
-                <Card className="mb-0">
-						<svg
-							className="bd-placeholder-img card-img-top"
-							width="100%"
-							height="180"
-							xmlns="http://www.w3.org/2000/svg"
-							role="img"
-							aria-label="Placeholder: Image cap"
-							preserveAspectRatio="xMidYMid slice"
-							focusable="false"
-						>
-							<title>Placeholder</title>
-							<rect width="100%" height="100%" fill="#868e96"></rect>
-							<text x="30%" y="50%" fill="#dee2e6" dy=".3em">
-								Image cap
-							</text>
-						</svg>
-						<Card.Body>
-							<h5 className="card-title">Card title</h5>
-							<p className="card-text">
-								Some quick example text to build on the card title and make up
-								the bulk of the card's content.
-							</p>
-							<Link to="/" className="btn btn-primary">
-								Go somewhere
-							</Link>
-						</Card.Body>
-					</Card>
-                </Col>
+			<Row className="row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 justify-content-center">
+				{pets.map((pet, id) => (
+					<Col key={id}>
+						<Card className="mb-0">
+							<div id="pet" className="d-flex justify-content-center">
+								<Image src={pet.image_url} fluid="true" rounded="true" />
+							</div>
+							<Card.Body>
+								<Card.Title>{pet.name}</Card.Title>
+								<Card.Text>{pet.description}</Card.Text>
+								<Link
+									to={`pet/${pet._id}`}
+									className="btn btn-light "
+								>
+									Mas detalles
+								</Link>
+							</Card.Body>
+						</Card>
+					</Col>
+				))}
 			</Row>
+			<Pagination
+				count={data.totalPages}
+				className="d-flex justify-content-center m-3"
+				variant="outlined"
+				shape="rounded"
+				color="primary"
+				onChange={e => handleChangePage(e.target.textContent)}
+				page={currentPage + 1}
+			>
+			</Pagination>
 		</>
 	);
 };

@@ -5,6 +5,7 @@ import Logo from "../../components/partials/components/logo";
 import { ScrollSpy } from "bootstrap";
 import { Link } from "react-router-dom";
 import Card from "../../components/Card";
+import Footer from "../../components/partials/dashboard/FooterStyle/footer";
 
 //img
 import topImage from "../../assets/images/dashboard/top-image.jpg";
@@ -301,7 +302,47 @@ const Home = (props) => {
 						<div className="bd-heading sticky-xl-top align-self-start">
 							<Card className="">
 								<Card.Body className="">
-									<h4 className="fw-bold">Objetivos</h4>
+									<h3 className="fw-bold">Objetivos</h3>
+								</Card.Body>
+							</Card>
+						</div>
+						<div className="">
+							<Card className="">
+								<Card.Body className="">
+									<p className="fw-bold">
+										Buscamos poder facilitar a los usuarios las herramientas
+										necesarias para la ejecución de acciones solidarias con las
+										mascotas en estado de calle.
+									</p>
+								</Card.Body>
+							</Card>
+						</div>
+					</section>
+					<section id="objectives">
+						<div className="bd-heading sticky-xl-top align-self-start">
+							<Card className="">
+								<Card.Body className="">
+									<h3 className="fw-bold">Misión</h3>
+								</Card.Body>
+							</Card>
+						</div>
+						<div className="">
+							<Card className="">
+								<Card.Body className="">
+									<p className="fw-bold">
+										Brindar servicios de búsqueda, adopción y registro de
+										mascotas en estados de calle, además de poder proporcionar
+										información útil para estas actividades.
+									</p>
+								</Card.Body>
+							</Card>
+						</div>
+					</section>
+					<section id="objectives">
+						<div className="bd-heading sticky-xl-top align-self-start">
+							<Card className="">
+								<Card.Body className="">
+									<h3 className="fw-bold">Visión</h3>
 								</Card.Body>
 							</Card>
 						</div>
@@ -309,9 +350,8 @@ const Home = (props) => {
 							<Card className="">
 								<Card.Body className="">
 									<p>
-										El objetivo de esta aplicación es que los usuarios puedan
-										crear una lista de tareas, y que estas sean organizadas en
-										categorías.
+										Crear una comunidad de personas que compartan los mismos
+										intereses y fomentar los mismos.
 									</p>
 								</Card.Body>
 							</Card>
@@ -319,6 +359,7 @@ const Home = (props) => {
 					</section>
 				</div>
 			</div>
+			<Footer />
 			<div id="back-to-top" style={{ display: "none" }}>
 				<Button size="xs" variant="primary  p-0 position-fixed top" href="#top">
 					<svg

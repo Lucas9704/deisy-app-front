@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CustomToggle from "../../../dropdowns";
 import { bindActionCreators } from "redux";
 import { useAuth } from "../../../../contexts/authContext";
+import { useSearchPets } from "../../../../contexts/searchPetsContext";
 
 //img
 import avatars1 from "../../../../assets/images/avatars/01.png";
@@ -56,15 +57,30 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Header = (props) => {
 	const { logout, user } = useAuth();
+	const { setSearchPet } = useSearchPets();
+	const [inputSearch, setInputSearch] = useState("");
+	const image = user.photoURL;
+
+	const handleSearch = ({target:{ value}}) => 
+		setInputSearch(value);
+
+	const handleSubmit = (e) => {
+		setSearchPet(inputSearch);
+	}
+
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			handleSubmit();
+		}
+	}
 
 	const handleLogout = async () => {
 		try {
 			await logout();
-		}
-		catch (error) {
+		} catch (error) {
 			console.log(error);
 		}
-	}
+	};
 
 	useEffect(() => {
 		// navbarstylemode
@@ -75,6 +91,7 @@ const Header = (props) => {
 			props.NavbarstyleAction(navbarstyleMode1);
 		}
 	});
+
 	const minisidebar = () => {
 		document.getElementsByTagName("ASIDE")[0].classList.toggle("sidebar-mini");
 	};
@@ -102,36 +119,46 @@ const Header = (props) => {
 							</svg>
 						</i>
 					</div>
-					<div className="input-group search-input">
+					<div className="input-group search-input" id="search">
 						<span className="input-group-text" id="search-input">
-							<svg
-								width="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
+							<Button
+								className="input-group-text p-0 d-flex align-items-center"
+								type="button"
+								variant="link"
+								onClick={handleSubmit}
 							>
-								<circle
-									cx="11.7669"
-									cy="11.7666"
-									r="8.98856"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								></circle>
-								<path
-									d="M18.0186 18.4851L21.5426 22"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								></path>
-							</svg>
+								<svg
+									width="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<circle
+										cx="11.7669"
+										cy="11.7666"
+										r="8.98856"
+										stroke="currentColor"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									></circle>
+									<path
+										d="M18.0186 18.4851L21.5426 22"
+										stroke="currentColor"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									></path>
+								</svg>
+							</Button>
 						</span>
 						<input
 							type="search"
 							className="form-control"
 							placeholder="Buscar..."
+							name="search"
+							onChange={handleSearch}
+							onKeyPress={handleKeyPress}
 						/>
 					</div>
 					<Navbar.Toggle aria-controls="navbarSupportedContent">
@@ -154,37 +181,39 @@ const Header = (props) => {
 									aria-expanded="false"
 								>
 									<img
-										src={avatars1}
+										src={image || avatars1}
 										alt="User-Profile"
 										className="theme-color-default-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<img
-										src={avatars2}
+										src={image || avatars2}
 										alt="User-Profile"
 										className="theme-color-purple-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<img
-										src={avatars3}
+										src={image || avatars3}
 										alt="User-Profile"
 										className="theme-color-blue-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<img
-										src={avatars5}
+										src={image || avatars5}
 										alt="User-Profile"
 										className="theme-color-green-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<img
-										src={avatars6}
+										src={image || avatars6}
 										alt="User-Profile"
 										className="theme-color-yellow-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<img
-										src={avatars4}
+										src={image || avatars4}
 										alt="User-Profile"
 										className="theme-color-pink-img img-fluid avatar avatar-50 avatar-rounded"
 									/>
 									<div className="caption ms-3 d-none d-md-block ">
-										<h6 className="mb-0 caption-title">{user.displayName || user.email}</h6>
+										<h6 className="mb-0 caption-title">
+											{user.displayName || user.email}
+										</h6>
 										<p className="mb-0 caption-sub-title">App user</p>
 									</div>
 								</Dropdown.Toggle>
@@ -205,7 +234,7 @@ const Header = (props) => {
 									<Dropdown.Divider />
 									<Dropdown.Item>
 										<Button className="dropdown-item" onClick={handleLogout}>
-										Cerrar sesión
+											Cerrar sesión
 										</Button>
 									</Dropdown.Item>
 								</Dropdown.Menu>

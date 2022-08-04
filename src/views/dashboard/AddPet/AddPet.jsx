@@ -1,12 +1,53 @@
 import React, { useState } from "react";
-import { Row, Col, Form, Image } from "react-bootstrap";
+import { Row, Col, Form, Image, InputGroup, Button } from "react-bootstrap";
 import Card from "../../../components/Card";
 import { Link } from "react-router-dom";
+import { postPet } from "../../../services/postPet";
 // img
 import imgsuccess from "../../../assets/images/pages/img-success.png";
 
 const AddPet = () => {
 	const [show, AccountShow] = useState("A");
+	const [petNew, setPetNew] = useState({
+		name: "",
+		type: "",
+		gender: "",
+		approximate_age: "",
+		description: "",
+		adoption_status: "",
+		approximate_location: "",
+		image_url: "",
+	});
+	const [validated, setValidated] = useState(false);
+
+	const handleSubmit = async(event) => {
+		const form = event.currentTarget;
+		if (form.checkValidity() === false) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+
+		setValidated(true);
+		try {
+			await postPet(petNew);
+			AccountShow("Image");
+		}
+		catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleChange = ({ target: { name, value } }) =>{
+		if (name === "approximate_age") {
+			value = parseInt(value);
+		}
+		if (name === "adoption_status") {
+			value = value === "true";
+		}
+		setPetNew({ ...petNew, [name]: value });
+	}
+		
+
 	return (
 		<>
 			<div>
@@ -19,7 +60,13 @@ const AddPet = () => {
 								</div>
 							</Card.Header>
 							<Card.Body>
-								<Form id="form-wizard1" className="text-center mt-3">
+								<Form
+									id="form-wizard1"
+									className="text-center mt-3"
+									noValidate
+									validated={validated}
+									onSubmit={handleSubmit}
+								>
 									<ul id="top-tab-list" className="p-0 row list-inline">
 										<li
 											className={` ${show === "Image" ? " active done" : ""} ${
@@ -77,7 +124,7 @@ const AddPet = () => {
 														/>
 													</svg>
 												</div>
-												<span>Adicionales</span>
+												<span>Estado</span>
 											</Link>
 										</li>
 										<li
@@ -147,70 +194,147 @@ const AddPet = () => {
 										<div className="form-card text-start">
 											<div className="row">
 												<div className="col-7">
-													<h3 className="mb-4">Account Information: </h3>
+													<h3 className="mb-4">Información Básica: </h3>
 												</div>
 												<div className="col-5">
-													<h2 className="steps">Step 1 - 4</h2>
+													<h2 className="steps">Paso 1 - 4</h2>
 												</div>
 											</div>
 											<div className="row">
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">Email: *</label>
-														<input
-															type="email"
-															className="form-control"
-															name="email"
-															placeholder="Email Id"
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Nombre: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Control
+																type="text"
+																className="form-control"
+																name="name"
+																id="name"
+																placeholder="Nombre de la mascota"
+																onChange={handleChange}
+																required
+															/>
+															<Form.Control.Feedback type="invalid">
+																Ingrese un Nombre.
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">Username: *</label>
-														<input
-															type="text"
-															className="form-control"
-															name="uname"
-															placeholder="UserName"
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Raza: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Select
+																type="select"
+																className="form-control"
+																name="type"
+																id="type"
+																onChange={handleChange}
+																required
+															>
+																<option value=""> Selecione un tipo </option>
+																<option value="Dog">🐶Perro🐕</option>
+																<option value="Cat">😺Gato🐈</option>
+															</Form.Select>
+															<Form.Control.Feedback type="invalid">
+																Seleccione un tipo
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">Password: *</label>
-														<input
-															type="password"
-															className="form-control"
-															name="pwd"
-															placeholder="Password"
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Genero: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Select
+																type="select"
+																className="form-control"
+																name="gender"
+																id="gender"
+																onChange={handleChange}
+																required
+															>
+																<option value="">Selecione un tipo</option>
+																<option value="Male">Macho</option>
+																<option value="Female">Hembra</option>
+															</Form.Select>
+															<Form.Control.Feedback type="invalid">
+																Seleccione un genero
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">
-															Confirm Password: *
-														</label>
-														<input
-															type="password"
-															className="form-control"
-															name="cpwd"
-															placeholder="Confirm Password"
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Edad Aproximada: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Select
+																type="select"
+																className="form-control"
+																name="approximate_age"
+																id="approximate_age"
+																onChange={handleChange}
+																required
+															>
+																<option value="">Selecione una</option>
+																<option value="1">1</option>
+																<option value="2">2</option>
+																<option value="3">3</option>
+																<option value="4">4</option>
+																<option value="5">5</option>
+																<option value="6">6</option>
+																<option value="7">7</option>
+																<option value="8">8</option>
+																<option value="9">9</option>
+																<option value="10">10</option>
+																<option value="11">11</option>
+																<option value="12">12</option>
+																<option value="13">13</option>
+																<option value="14">14</option>
+																<option value="15">15</option>
+																<option value="16">16</option>
+																<option value="17">17</option>
+																<option value="18">18</option>
+																<option value="19">19</option>
+																<option value="20">20</option>
+															</Form.Select>
+															<Form.Control.Feedback type="invalid">
+																Seleccione una edad
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 											</div>
 										</div>
-										<button
+										<Button
 											type="button"
 											name="next"
 											className="btn btn-primary next action-button float-end"
 											value="Next"
 											onClick={() => AccountShow("Account")}
 										>
-											Next
-										</button>
+											Siguiente
+										</Button>
 									</fieldset>
 									<fieldset
 										className={`${show === "Account" ? "d-block" : "d-none"}`}
@@ -218,58 +342,90 @@ const AddPet = () => {
 										<div className="form-card text-start">
 											<div className="row">
 												<div className="col-7">
-													<h3 className="mb-4">Personal Information:</h3>
+													<h3 className="mb-4">Estado:</h3>
 												</div>
 												<div className="col-5">
-													<h2 className="steps">Step 2 - 4</h2>
+													<h2 className="steps">Paso 2 - 4</h2>
 												</div>
 											</div>
 											<div className="row">
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">First Name: *</label>
-														<input
-															type="text"
-															className="form-control"
-															name="fname"
-															placeholder="First Name"
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Estado de adopción: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Select
+																type="select"
+																className="form-control"
+																name="adoption_status"
+																id="adoption_status"
+																onChange={handleChange}
+																required
+															>
+																<option value=""> Selecionar </option>
+																<option value={true}>Disponible </option>
+																<option value={false}>Adoptado/a</option>
+															</Form.Select>
+															<Form.Control.Feedback type="invalid">
+																Seleccione una opción
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">Last Name: *</label>
-														<input
-															type="text"
-															className="form-control"
-															name="lname"
-															placeholder="Last Name"
-														/>
-													</div>
+												<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Ubicación (Aproximada): *
+														</Form.Label>
+														<InputGroup>
+															<Form.Control
+																type="text"
+																className="form-control"
+																name="approximate_location"
+																id="approximate_location"
+																placeholder="Lugar o calles"
+																onChange={handleChange}
+																required
+															/>
+															<Form.Control.Feedback type="invalid">
+																Ingrese un Lugar aproximado.
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
 												</div>
 												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">Contact No.: *</label>
-														<input
-															type="text"
-															className="form-control"
-															name="phno"
-															placeholder="Contact No."
-														/>
-													</div>
-												</div>
-												<div className="col-md-6">
-													<div className="form-group">
-														<label className="form-label">
-															Alternate Contact No.: *
-														</label>
-														<input
-															type="text"
-															className="form-control"
-															name="phno_2"
-															placeholder="Alternate Contact No."
-														/>
-													</div>
+													<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Descripción: *
+														</Form.Label>
+														<InputGroup>
+															<Form.Control
+																as="textarea"
+																rows={3}
+																className="form-control"
+																name="description"
+																id="description"
+																onChange={handleChange}
+																required
+															/>
+															<Form.Control.Feedback type="invalid">
+																Ingrese la descripción.
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+														<Form.Text>
+															Agregue una descripción breve de la mascota
+														</Form.Text>
+													</Form.Group>
 												</div>
 											</div>
 										</div>
@@ -298,32 +454,45 @@ const AddPet = () => {
 										<div className="form-card text-start">
 											<div className="row">
 												<div className="col-7">
-													<h3 className="mb-4">Image Upload:</h3>
+													<h3 className="mb-4">Subir imagenes:</h3>
 												</div>
 												<div className="col-5">
-													<h2 className="steps">Step 3 - 4</h2>
+													<h2 className="steps">Paso 3 - 4</h2>
 												</div>
 											</div>
-											<div className="form-group">
-												<label className="form-label">Upload Your Photo:</label>
-												<input
-													type="file"
-													className="form-control"
-													name="pic"
-													accept="image/*"
-												/>
-											</div>
-											<div className="form-group">
-												<label className="form-label">
-													Upload Signature Photo:
-												</label>
-												<input
+											<Form.Group className="form-group">
+														<Form.Label className="form-label">
+															Subir URL de la Imagen
+														</Form.Label>
+														<InputGroup>
+															<Form.Control
+																type="text"
+																className="form-control"
+																name="image_url"
+																id="image_url"
+																onChange={handleChange}
+																required
+															/>
+															<Form.Control.Feedback type="invalid">
+																Coloque una URL de la imagen.
+															</Form.Control.Feedback>
+															<Form.Control.Feedback>
+																Correcto
+															</Form.Control.Feedback>
+														</InputGroup>
+													</Form.Group>
+											<Form.Group className="form-group">
+												<Form.Label className="form-label">
+													Subir una imagen:   (Proximamente)
+												</Form.Label>
+												<Form.Control
 													type="file"
 													className="form-control"
 													name="pic-2"
 													accept="image/*"
+													disabled
 												/>
-											</div>
+											</Form.Group>
 										</div>
 										<button
 											type="button"
@@ -334,6 +503,7 @@ const AddPet = () => {
 										>
 											Submit
 										</button>
+										<Button type="submit">Submit form</Button>
 										<button
 											type="button"
 											name="previous"

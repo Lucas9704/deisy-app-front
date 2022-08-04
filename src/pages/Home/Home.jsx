@@ -349,7 +349,7 @@ const Home = (props) => {
 						<div className="">
 							<Card className="">
 								<Card.Body className="">
-									<p>
+									<p className="fw-bold">
 										Crear una comunidad de personas que compartan los mismos
 										intereses y fomentar los mismos.
 									</p>

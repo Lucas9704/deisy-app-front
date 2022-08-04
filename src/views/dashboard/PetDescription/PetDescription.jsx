@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Row, Col, Image, Tab } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import Card from "../../../components/Card";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getPet } from "../../../services/getPet";
 import Loader from "../../../components/Loader";
 

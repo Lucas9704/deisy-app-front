@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { getPets } from "../../../services/getPets";
 import Loader from "../../../components/Loader";
 import { Pagination } from "@mui/material";
+import { useSearchPets } from "../../../contexts/searchPetsContext";
 
 import { bindActionCreators } from "redux";
 
@@ -77,6 +78,7 @@ const PetsList = (props) => {
 	const [error, setError] = useState(null);
 	const [data, setData] = useState();
 	const [currentPage, setCurrentPage] = useState(0);
+	const { searchPet } = useSearchPets();
 
 	const handleChangePage = newPage => {
 		setCurrentPage(newPage-1);
@@ -86,7 +88,7 @@ const PetsList = (props) => {
 	useEffect(() => {
 		async function fetchPets() {
 			try {
-				const pets = await getPets( 8, currentPage);
+				const pets = await getPets( 8, currentPage, searchPet);
 				setData(pets.data);
 				setPets(pets.data.data);
 				setLoading(false);
@@ -97,7 +99,7 @@ const PetsList = (props) => {
 		}
 
 		fetchPets();
-	}, [currentPage]);
+	}, [currentPage, searchPet]);
 
 	useEffect(() => {
 		AOS.init({

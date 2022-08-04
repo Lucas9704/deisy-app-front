@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
-import { Navbar, Container, Nav } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { bindActionCreators } from "redux";
+import { useSearchPets } from "../../../../contexts/searchPetsContext";
 
 // logo
 import Logo from "../../components/logo";
@@ -46,6 +47,21 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Header = (props) => {
+	const { setSearchPet } = useSearchPets();
+	const [inputSearch, setInputSearch] = useState("");
+
+	const handleSearch = ({target:{ value}}) => 
+		setInputSearch(value);
+
+	const handleSubmit = (e) => {
+		setSearchPet(inputSearch);
+	}
+
+	const handleKeyPress = (e) => {
+		if (e.key === "Enter") {
+			handleSubmit();
+		}
+	}
 
 	useEffect(() => {
 		// navbarstylemode
@@ -85,34 +101,44 @@ const Header = (props) => {
 					</div>
 					<div className="input-group search-input">
 						<span className="input-group-text" id="search-input">
-							<svg
-								width="18"
-								viewBox="0 0 24 24"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
+						<Button
+								className="input-group-text p-0 d-flex align-items-center"
+								type="button"
+								variant="link"
+								onClick={handleSubmit}
 							>
-								<circle
-									cx="11.7669"
-									cy="11.7666"
-									r="8.98856"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								></circle>
-								<path
-									d="M18.0186 18.4851L21.5426 22"
-									stroke="currentColor"
-									strokeWidth="1.5"
-									strokeLinecap="round"
-									strokeLinejoin="round"
-								></path>
-							</svg>
+								<svg
+									width="20"
+									viewBox="0 0 24 24"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<circle
+										cx="11.7669"
+										cy="11.7666"
+										r="8.98856"
+										stroke="currentColor"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									></circle>
+									<path
+										d="M18.0186 18.4851L21.5426 22"
+										stroke="currentColor"
+										strokeWidth="1.5"
+										strokeLinecap="round"
+										strokeLinejoin="round"
+									></path>
+								</svg>
+							</Button>
 						</span>
 						<input
 							type="search"
 							className="form-control"
 							placeholder="Buscar..."
+							name="search"
+							onChange={handleSearch}
+							onKeyPress={handleKeyPress}
 						/>
 					</div>
 					<div>

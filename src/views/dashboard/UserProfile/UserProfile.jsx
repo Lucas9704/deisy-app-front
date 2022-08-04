@@ -13,7 +13,8 @@ import avatars55 from "../../../assets/images/avatars/avtar_4.png";
 import avatars66 from "../../../assets/images/avatars/avtar_5.png";
 
 const UserProfile = () => {
-	  const { user } = useAuth();
+	const { user } = useAuth();
+	const image = user.photoURL;
 
 	return (
 		<>
@@ -27,7 +28,7 @@ const UserProfile = () => {
 										<div className="profile-img position-relative me-3 mb-3 mb-lg-0 profile-logo profile-logo1">
 											<Image
 												className="theme-color-default-img  img-fluid rounded-pill avatar-100"
-												src={avatars11}
+												src={image || avatars11}
 												alt="profile-pic"
 											/>
 											<Image
@@ -57,7 +58,9 @@ const UserProfile = () => {
 											/>
 										</div>
 										<div className="d-flex flex-wrap align-items-center mb-3 mb-sm-0">
-											<h4 className="me-2 h4">{user.displayName || user.email}</h4>
+											<h4 className="me-2 h4">
+												{user.displayName || user.email}
+											</h4>
 											<span> - Usuario</span>
 										</div>
 									</div>
@@ -99,37 +102,39 @@ const UserProfile = () => {
 											<div className="user-profile">
 												<Image
 													className="theme-color-default-img  rounded-pill avatar-130 img-fluid"
-													src={avatars11}
+													src={image || avatars11}
 													alt="profile-pic"
 												/>
 												<Image
 													className="theme-color-purple-img rounded-pill avatar-130 img-fluid"
-													src={avatars22}
+													src={ image || avatars22}
 													alt="profile-pic"
 												/>
 												<Image
 													className="theme-color-blue-img rounded-pill avatar-130 img-fluid"
-													src={avatars33}
+													src={image || avatars33}
 													alt="profile-pic"
 												/>
 												<Image
 													className="theme-color-green-img rounded-pill avatar-130 img-fluid"
-													src={avatars55}
+													src={image || avatars55}
 													alt="profile-pic"
 												/>
 												<Image
 													className="theme-color-yellow-img rounded-pill avatar-130 img-fluid"
-													src={avatars66}
+													src={image || avatars66}
 													alt="profile-pic"
 												/>
 												<Image
 													className="theme-color-pink-img rounded-pill avatar-130 img-fluid"
-													src={avatars44}
+													src={image || avatars44}
 													alt="profile-pic"
 												/>
 											</div>
 											<div className="mt-3">
-												<h3 className="d-inline-block">{user.displayName || user.email }</h3>
+												<h3 className="d-inline-block">
+													{user.displayName || user.email}
+												</h3>
 												<p className="d-inline-block pl-3"> - Usuario</p>
 												<p className="mb-0">
 													Lorem Ipsum is simply dummy text of the printing and
@@ -143,30 +148,28 @@ const UserProfile = () => {
 								<Card>
 									<Card.Header>
 										<div className="header-title">
-											<h4 className="card-title">About User</h4>
+											<h4 className="card-title">Información de usuario</h4>
 										</div>
 									</Card.Header>
 									<Card.Body>
 										<div className="user-bio">
 											<p>
-												Tart I love sugar plum I love oat cake. Sweet roll
-												caramels I love jujubes. Topping cake wafer.
+												Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text'
 											</p>
 										</div>
 										<div className="mt-2">
-											<h6 className="mb-1">Joined:</h6>
-											<p>Feb 15, 2021</p>
+											<h6 className="mb-1">Se unió:</h6>
+											<p>{ user.metadata.creationTime }</p>
 										</div>
 										<div className="mt-2">
-											<h6 className="mb-1">Lives:</h6>
-											<p>United States of America</p>
+											<h6 className="mb-1">Vive en:</h6>
+											<p>Argentina</p>
 										</div>
 										<div className="mt-2">
 											<h6 className="mb-1">Email:</h6>
 											<p>
 												<Link to="#" className="text-body">
-													{" "}
-													austin@gmail.com
+													{user.email}
 												</Link>
 											</p>
 										</div>
@@ -174,8 +177,7 @@ const UserProfile = () => {
 											<h6 className="mb-1">Url:</h6>
 											<p>
 												<Link to="#" className="text-body" target="_blank">
-													{" "}
-													www.bootstrap.com{" "}
+													
 												</Link>
 											</p>
 										</div>
@@ -183,7 +185,7 @@ const UserProfile = () => {
 											<h6 className="mb-1">Contact:</h6>
 											<p>
 												<Link to="#" className="text-body">
-													(001) 4544 565 456
+													
 												</Link>
 											</p>
 										</div>

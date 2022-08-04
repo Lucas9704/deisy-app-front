@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-    baseURL: process.env.REACT_APP_API_BASE_URL,
+    baseURL: "https://deisy-back.herokuapp.com/api/v1/",
     timeout: 5000,
 });
 

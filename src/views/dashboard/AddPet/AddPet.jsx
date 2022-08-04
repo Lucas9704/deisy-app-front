@@ -21,12 +21,12 @@ const AddPet = () => {
 	const [validated, setValidated] = useState(false);
 
 	const handleSubmit = async(event) => {
+		event.preventDefault();
 		const form = event.currentTarget;
 		if (form.checkValidity() === false) {
-			event.preventDefault();
 			event.stopPropagation();
 		}
-
+		
 		setValidated(true);
 		try {
 			await postPet(petNew);
@@ -494,25 +494,24 @@ const AddPet = () => {
 												/>
 											</Form.Group>
 										</div>
-										<button
-											type="button"
+										<Button
+											type="submit"
 											name="next"
 											className="btn btn-primary next action-button float-end"
 											value="Submit"
 											onClick={() => AccountShow("Image")}
 										>
 											Submit
-										</button>
-										<Button type="submit">Submit form</Button>
-										<button
-											type="button"
+										</Button>
+										<Button
+											type="botton"
 											name="previous"
 											className="btn btn-dark previous action-button-previous float-end me-1"
 											value="Previous"
 											onClick={() => AccountShow("Account")}
 										>
 											Previous
-										</button>
+										</Button>
 									</fieldset>
 									<fieldset
 										className={`${show === "Image" ? "d-block" : "d-none"}`}

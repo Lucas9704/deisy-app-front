@@ -163,7 +163,7 @@ const PetsList = (props) => {
 							</div>
 							<Card.Body>
 								<Card.Title>{pet.name}</Card.Title>
-								<Card.Text>{pet.description}</Card.Text>
+								<Card.Text>{pet.approximate_location}</Card.Text>
 								<Link
 									to={`pet/${pet._id}`}
 									className="btn btn-light "
